@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NRSC File Search - Advanced Search Functionality</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'isro-blue': '#1a3e72',
+                        'isro-light-blue': '#e6f0fa',
+                        'accent-orange': '#f57c00'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-lg border-b-4 border-isro-blue">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-6">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-gradient-to-r from-isro-blue to-blue-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-satellite text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-isro-blue">NRSC File Search</h1>
+                        <p class="text-gray-600 text-sm">National Remote Sensing Centre</p>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-4 text-gray-600">
+                    <i class="fas fa-search text-lg"></i>
+                    <span class="text-sm">Advanced Search Engine</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Search Section -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-8 border border-gray-100">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Search NRSC Files</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Discover disaster management support, aerial services, agriculture applications, and more from the National Remote Sensing Centre database.
+                </p>
+            </div>
+
+            <!-- Search Input -->
+            <div class="max-w-4xl mx-auto">
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <i class="fas fa-search text-gray-400 text-xl"></i>
+                    </div>
+                    <input 
+                        type="text" 
+                        id="searchInput"
+                        placeholder="Search by filename, title, content, or keywords..."
+                        class="w-full pl-12 pr-4 py-4 text-lg border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-isro-blue transition-all duration-300 outline-none"
+                    >
+                    <div class="absolute inset-y-0 right-0 pr-4 flex items-center">
+                        <button 
+                            id="searchBtn"
+                            class="bg-gradient-to-r from-isro-blue to-blue-600 text-white px-6 py-2 rounded-lg hover:from-blue-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                        >
+                            Search
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Search Filters -->
+                <div class="mt-6 flex flex-wrap gap-4 justify-center">
+                    <div class="flex items-center space-x-2">
+                        <input type="checkbox" id="filterDisaster" class="w-4 h-4 text-isro-blue rounded focus:ring-blue-500">
+                        <label for="filterDisaster" class="text-sm text-gray-700">Disaster Management</label>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <input type="checkbox" id="filterAerial" class="w-4 h-4 text-isro-blue rounded focus:ring-blue-500">
+                        <label for="filterAerial" class="text-sm text-gray-700">Aerial Services</label>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <input type="checkbox" id="filterAgriculture" class="w-4 h-4 text-isro-blue rounded focus:ring-blue-500">
+                        <label for="filterAgriculture" class="text-sm text-gray-700">Agriculture</label>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <input type="checkbox" id="filterDataProcessing" class="w-4 h-4 text-isro-blue rounded focus:ring-blue-500">
+                        <label for="filterDataProcessing" class="text-sm text-gray-700">Data Processing</label>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <input type="checkbox" id="filterCareer" class="w-4 h-4 text-isro-blue rounded focus:ring-blue-500">
+                        <label for="filterCareer" class="text-sm text-gray-700">Career & Internships</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="hidden">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-semibold text-gray-800">
+                    Search Results: <span id="resultCount" class="text-isro-blue">0</span> files found
+                </h3>
+                <div class="flex items-center space-x-4">
+                    <select id="sortSelect" class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-100 focus:border-isro-blue">
+                        <option value="relevance">Sort by Relevance</option>
+                        <option value="filename">Sort by Filename</option>
+                        <option value="date">Sort by Date</option>
+                        <option value="size">Sort by File Size</option>
+                    </select>
+                    <button id="clearBtn" class="text-gray-500 hover:text-gray-700 text-sm font-medium">
+                        <i class="fas fa-times mr-2"></i>Clear Results
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Container -->
+            <div id="resultsContainer" class="space-y-4"></div>
+
+            <!-- Pagination -->
+            <div id="pagination" class="mt-8 flex justify-center hidden">
+                <nav class="flex items-center space-x-2">
+                    <button id="prevPage" class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
+                        Previous
+                    </button>
+                    <span id="pageInfo" class="px-3 py-2 text-sm text-gray-700"></span>
+                    <button id="nextPage" class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
+                        Next
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- No Results -->
+        <div id="noResults" class="hidden text-center py-12">
+            <div class="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+                <i class="fas fa-search text-gray-400 text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-600 mb-2">No results found</h3>
+            <p class="text-gray-500">Try adjusting your search terms or filters</p>
+        </div>
+
+        <!-- Loading -->
+        <div id="loading" class="hidden text-center py-12">
+            <div class="w-16 h-16 mx-auto mb-4 border-4 border-blue-200 border-t-isro-blue rounded-full animate-spin"></div>
+            <p class="text-gray-600">Searching...</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-gray-300">&copy; 2024 NRSC File Search. Powered by advanced search technology.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
